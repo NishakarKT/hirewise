@@ -19,6 +19,11 @@ const navConfig = [
     path: '/admin/jobs',
     icon: icon('ic_blog'),
   },
+  {
+    title: 'AI Tools',
+    path: '/admin/tools',
+    icon: icon('ic_blog'),
+  },
   // {
   //   title: 'Dashboard',
   //   path: '/admin/dashboard',

@@ -11,6 +11,7 @@ import SimpleLayout from './layouts/simple';
 import ApplicationsPage from './pages/admin/AppllicationsPage';
 import AdminJobsPage from './pages/admin/AdminJobsPage';
 import AdminInterviewsPage from './pages/admin/AdminInterviewsPage';
+import AIPage from './pages/admin/AIPage';
 // admin
 import JobsPage from './pages/user/JobsPage';
 import InterviewsPage from './pages/user/InterviewsPage';
@@ -40,10 +41,11 @@ export default function Router() {
       path: '/admin/',
       element: user?.role === 'admin' ? <AdminLayout /> : <Navigate to="/auth" />,
       children: [
-        { element: <Navigate to="interviews" />, index: true },
+        { element: <Navigate to="tools" />, index: true },
         { path: 'interviews', element: <AdminInterviewsPage /> },
         { path: 'applications', element: <ApplicationsPage /> },
         { path: 'jobs', element: <AdminJobsPage /> },
+        { path: 'tools', element: <AIPage /> },
         // template
         { path: 'dashboard', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
