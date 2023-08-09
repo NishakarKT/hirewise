@@ -32,7 +32,7 @@ import ast
 import os
 import requests
 import Axis_prompts
-openai.api_key = "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"
+openai.api_key = ""
 app = FastAPI()
 
 class CompletionGenerator:
