@@ -50,7 +50,7 @@ export default function ApplicationsPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = interviews.map((row) => user?._id || '');
+      const newSelecteds = interviews.map(() => user?._id || '');
       setSelected(newSelecteds);
       return;
     }

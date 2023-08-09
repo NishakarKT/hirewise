@@ -54,10 +54,12 @@ export default function ApplicationsPage() {
   const [mailOptions, setMailOptions] = useState(false);
   const { user } = useContext(AppContext);
   const [page, setPage] = useState(0);
+  const [resultsPage, setResultsPage] = useState(0);
   const [selected, setSelected] = useState([]);
   const [resultsSelected, setResultsSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [resultsRowsPerPage, setResultsRowsPerPage] = useState(5);
   const [isRanking, setIsRanking] = useState(false);
   const [isMailing, setIsMailing] = useState(false);
   const [isScheduling, setIsScheduling] = useState(false);
@@ -113,13 +115,18 @@ export default function ApplicationsPage() {
     setResultsSelected(newResultsSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  const handleChangePage = (event, newPage) => setPage(newPage)
+
+  const handleChangeResultsPage = (event, resultsPage) => setResultsPage(resultsPage);
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
     setRowsPerPage(parseInt(event.target.value, 10));
+  };
+
+  const handleChangeResultsRowsPerPage = (event) => {
+    setResultsPage(0);
+    setResultsRowsPerPage(parseInt(event.target.value, 10));
   };
 
   const handleFilterByName = (event) => {
@@ -336,7 +343,7 @@ export default function ApplicationsPage() {
                     onSelectAllClick={handleResultsSelectAllClick}
                   />
                   <TableBody>
-                    {results.map((row) => {
+                    {results.slice(resultsPage * resultsRowsPerPage, resultsPage * resultsRowsPerPage + resultsRowsPerPage).map((row) => {
                       const selectedUser = resultsSelected.indexOf(`${row.job?._id || ''}$$${row.user?._id || ''}`) !== -1;
                       return (
                         <TableRow
@@ -404,6 +411,15 @@ export default function ApplicationsPage() {
                 </Table>
               </TableContainer>
             </Scrollbar>
+            <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={results.length}
+            rowsPerPage={resultsRowsPerPage}
+            page={resultsPage}
+            onPageChange={handleChangeResultsPage}
+            onRowsPerPageChange={handleChangeResultsRowsPerPage}
+          />
           </Card>
         ) : null}
 

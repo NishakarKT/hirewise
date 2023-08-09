@@ -5,7 +5,6 @@ import AppContext from './contexts/AppContext';
 // layouts
 import UserLayout from './layouts/user';
 import AdminLayout from './layouts/admin';
-import SimpleLayout from './layouts/simple';
 // // pages
 // user
 import ApplicationsPage from './pages/admin/AppllicationsPage';
@@ -19,7 +18,6 @@ import InterviewsPage from './pages/user/InterviewsPage';
 import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
 import Auth from './pages/Auth';
-import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 
@@ -63,14 +61,6 @@ export default function Router() {
         <Navigate to="/user/" />
       ),
     },
-    // {
-    //   element: <SimpleLayout />,
-    //   children: [
-    //     { element: <Navigate to="/dashboard" />, index: true },
-    //     { path: '404', element: <Page404 /> },
-    //     { path: '*', element: <Navigate to="/404" /> },
-    //   ],
-    // },
     {
       path: '*',
       element: <Navigate to="/auth/" />,

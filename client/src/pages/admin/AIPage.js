@@ -42,8 +42,10 @@ export default function ApplicationsPage() {
   const [results, setResults] = useState([]);
   const [files, setFiles] = useState([]);
   const [page, setPage] = useState(0);
+  const [resultsPage, setResultsPage] = useState(0);
   const [selected, setSelected] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [resultsRowsPerPage, setResultsRowsPerPage] = useState(5);
   const [isRanking, setIsRanking] = useState(false);
 
   const handleSelectAllClick = (event) => {
@@ -74,9 +76,18 @@ export default function ApplicationsPage() {
     setPage(newPage);
   };
 
+  const handleResultsChangePage = (event, newPage) => {
+    setResultsPage(newPage);
+  };
+
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
     setRowsPerPage(parseInt(event.target.value, 10));
+  };
+
+  const handleChangeResultsRowsPerPage = (event) => {
+    setResultsPage(0);
+    setResultsRowsPerPage(parseInt(event.target.value, 10));
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - resumes.length) : 0;
@@ -108,7 +119,7 @@ export default function ApplicationsPage() {
             const { files } = res.data;
             const results = [];
             resumes.forEach((resume) => {
-              if (files.find(file => file.includes(resume.name))) results.push(resume);
+              if (files.find((file) => file.includes(resume.name))) results.push(resume);
             });
             setResults(results);
             setIsRanking(false);
@@ -243,68 +254,65 @@ export default function ApplicationsPage() {
             </Typography>
           </Stack>
         ) : null}
-        {results.length ? <Card>
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  hideCheck
-                  headLabel={TABLE_HEAD}
-                  rowCount={results.length}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {results.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    return (
-                      <TableRow
-                        hover
-                        key={row._id + row.job?._id}
-                        tabIndex={-1}
-                        role="checkbox"
-                      >
-                        <TableCell align="left">{row.name}</TableCell>
-                        <TableCell align="left">{row.type}</TableCell>
-                        <TableCell align="left">{getMemorySize(row.size)}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {isNotFound && (
+        {results.length ? (
+          <Card>
+            <Scrollbar>
+              <TableContainer sx={{ minWidth: 800 }}>
+                <Table>
+                  <UserListHead
+                    hideCheck
+                    headLabel={TABLE_HEAD}
+                    rowCount={results.length}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
                   <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <Paper
-                          sx={{
-                            textAlign: 'center',
-                          }}
-                        >
-                          <Typography variant="h6" paragraph>
-                            No Resumes Loaded
-                          </Typography>
-                          <Typography variant="body2">Upload resumes to rank them.</Typography>
-                        </Paper>
-                      </TableCell>
-                    </TableRow>
+                    {results
+                      .slice(resultsPage * resultsRowsPerPage, resultsPage * resultsRowsPerPage + resultsRowsPerPage)
+                      .map((row) => (
+                        <TableRow hover key={row._id + row.job?._id} tabIndex={-1} role="checkbox">
+                          <TableCell align="left">{row.name}</TableCell>
+                          <TableCell align="left">{row.type}</TableCell>
+                          <TableCell align="left">{getMemorySize(row.size)}</TableCell>
+                        </TableRow>
+                      ))}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
                   </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={results.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card> : null}
+                  {isNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <Paper
+                            sx={{
+                              textAlign: 'center',
+                            }}
+                          >
+                            <Typography variant="h6" paragraph>
+                              No Resumes Loaded
+                            </Typography>
+                            <Typography variant="body2">Upload resumes to rank them.</Typography>
+                          </Paper>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  )}
+                </Table>
+              </TableContainer>
+            </Scrollbar>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={results.length}
+              rowsPerPage={resultsRowsPerPage}
+              page={resultsPage}
+              onPageChange={handleResultsChangePage}
+              onRowsPerPageChange={handleChangeResultsRowsPerPage}
+            />
+          </Card>
+        ) : null}
       </Container>
     </>
   );
