@@ -25,6 +25,7 @@ Recognition.lang = 'en-US';
 Recognition.continuous = true;
 
 const Interview = ({ interview }) => {
+  const userRef = useRef(null);
   const botRef = useRef(null);
   const [question, setQuestion] = useState('');
   const [displayQuestion, setDisplayQuestion] = useState('');
@@ -109,6 +110,7 @@ const Interview = ({ interview }) => {
 
   useEffect(() => {
     if (interview) {
+      // fetch questions
       axios
         .get(QUESTION_GET_ENDPOINT, { params: { jobId: interview.jobId } })
         .then((res) => {
@@ -124,6 +126,14 @@ const Interview = ({ interview }) => {
             setDisplayQuestion('');
             setIsBotSpeaking(false);
           }
+        })
+        .catch((err) => console.log(err));
+      // fetch user video
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          userRef.current.srcObject = stream;
+          userRef.current.play();
         })
         .catch((err) => console.log(err));
     } else setQuestions([]);
@@ -167,7 +177,21 @@ const Interview = ({ interview }) => {
           muted
           autoPlay
           loop
-        />{' '}
+        />
+        <video
+          ref={userRef}
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+            right: '48px',
+            top: '0px',
+            width: '150px',
+            height: '150px',
+            objectFit: 'cover',
+          }}
+          muted
+          autoPlay
+        />
         {!isBotSpeaking ? (
           <VolumeMute
             fontSize="large"
