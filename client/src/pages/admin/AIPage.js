@@ -22,7 +22,7 @@ import {
 import { LoadingButton } from '@mui/lab';
 // constants
 import { COMPANY } from '../../constants/vars';
-import { TOOL_RANK_CVS_ENDPOINT, JOB_GET_ENDPOINT } from '../../constants/endpoints';
+import { TOOL_RANK_CVS_ENDPOINT, JOB_GET_ENDPOINT, JOB_GET_APPLIS_ENDPOINT } from '../../constants/endpoints';
 // contexts
 import AppContext from '../../contexts/AppContext';
 // components
@@ -106,12 +106,25 @@ export default function ApplicationsPage() {
       const reader = new FileReader();
       reader.onload = function (e) {
         const text = e.target.result;
-        cvs.push({ cv: text, jd: jobs.find((j) => j._id === job)?.desc });
+        cvs.push({ cv: text, cvName: resume.name, jd: jobs.find((j) => j._id === job)?.desc, userId: user._id });
         if (cvs.length === selectedResumes.length) {
+          setIsRanking(true);
           axios
-            .post(TOOL_RANK_CVS_ENDPOINT, { cvs, jd: jobs.find((j) => j._id === job)?.desc })
-            .then((res) => console.log(res.data))
-            .catch((err) => console.log(err));
+            .post(TOOL_RANK_CVS_ENDPOINT, { cvs })
+            .then((res) => {
+              const sorted = res.data.sort((a, b) => b.score - a.score);
+              console.log(sorted)
+              if (sorted.length) {
+                const results = [];
+                sorted.map((cv) => results.push(selectedResumes.find((r) => r.name === cv.cvName)));
+                setResults(results);
+              }
+              setIsRanking(false);
+            })
+            .catch((err) => {
+              console.log(err);
+              setIsRanking(false);
+            });
         }
       };
       reader.readAsText(file);

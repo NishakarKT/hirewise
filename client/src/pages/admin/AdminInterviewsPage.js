@@ -197,6 +197,7 @@ export default function AdminInterviewsPage() {
                             onChange={(e) => handleStatusChange(e, row._id)}
                           >
                             <MenuItem value="pending">Pending</MenuItem>
+                            <MenuItem value="completed">Completed</MenuItem>
                             <MenuItem value="accepted">Accepted</MenuItem>
                             <MenuItem value="rejected">Rejected</MenuItem>
                           </Select>

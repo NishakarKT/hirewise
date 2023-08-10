@@ -1,9 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 // @mui
 import { Box, Container, Grid, Stack, TextField, Typography, CircularProgress, Tooltip } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+// contexts
+import AppContext from '../../contexts/AppContext';
 // constants
 import { COMPANY } from '../../constants/vars';
 import { JOB_NEW_ENDPOINT, JOB_GET_ENDPOINT, ADMIN_SUGGEST_DESC_ENDPOINT } from '../../constants/endpoints';
@@ -37,6 +39,7 @@ function CircularProgressWithLabel(props) {
 }
 
 export default function AdminJobsPage() {
+  const { user } = useContext(AppContext);
   const formRef = useRef(null);
   const [jobs, setJobs] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -66,10 +69,10 @@ export default function AdminJobsPage() {
     const desc = formRef.current.desc.value;
     setIsSuggesting(true);
     axios
-      .post(ADMIN_SUGGEST_DESC_ENDPOINT, { desc })
+      .post(ADMIN_SUGGEST_DESC_ENDPOINT, { desc, userId: user?._id })
       .then((res) => {
-        const data = res.data;
-        console.log(data);
+        const data = res.data.data;
+        console.log(data)
         let desc = '';
         Object.keys(data.recommended_sections).forEach((section) => {
           desc += `${section}\n`;
@@ -135,8 +138,16 @@ export default function AdminJobsPage() {
             <Grid item xs={12}>
               <Stack direction="row" justifyContent="space-between" spacing={2}>
                 <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                  <CircularProgressWithLabel title="Final Score" value={(finalScore * 100).toFixed(0)} color={finalScore < 0.5 ? "error" : "success"} />
-                  <CircularProgressWithLabel title="Readability Score" value={(readabilityScore * 100).toFixed(0)} color={readabilityScore < 0.5 ? "error" : "success"} />
+                  <CircularProgressWithLabel
+                    title="Final Score"
+                    value={(finalScore * 100).toFixed(0)}
+                    color={finalScore < 0.3 ? 'error' : finalScore < 0.6 ? 'warning' : 'success'}
+                  />
+                  <CircularProgressWithLabel
+                    title="Readability Score"
+                    value={(readabilityScore * 100).toFixed(0)}
+                    color={readabilityScore < 0.3 ? 'error' : readabilityScore < 0.6 ? 'warning' : 'success'}
+                  />
                 </Stack>
                 <Stack direction="row" justifyContent="flex-start" spacing={2}>
                   <LoadingButton

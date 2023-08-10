@@ -76,15 +76,15 @@ const Interview = ({ interview }) => {
 
   const handleNext = () => {
     setFetchingNext(true);
-    if (questions.length < 10)
+    if (questions.length < 20)
       axios
-        .get(questions.length < 5 ? QUESTION_GET_CV_ENDPOINT : QUESTION_GET_JD_ENDPOINT, {
+        .get(questions.length < 10 ? QUESTION_GET_CV_ENDPOINT : QUESTION_GET_JD_ENDPOINT, {
           params: {
             userId: user._id,
             userName: user.name || 'User',
             jobId: interview.jobId,
             answer,
-            value: questions.length < 5 ? interview.cv : interview.jd,
+            value: questions.length < 10 ? interview.cv : interview.jd,
           },
         })
         .then((res) => {
@@ -131,16 +131,16 @@ const Interview = ({ interview }) => {
   }, []);
 
   useEffect(() => {
-    if (interview && questions.length < 10) {
+    if (interview && questions.length < 20) {
       setFetchingNext(true);
       axios
-        .get(questions.length < 5 ? QUESTION_GET_CV_ENDPOINT : QUESTION_GET_JD_ENDPOINT, {
+        .get(questions.length < 10 ? QUESTION_GET_CV_ENDPOINT : QUESTION_GET_JD_ENDPOINT, {
           params: {
             userId: user._id,
             userName: user.name || 'User',
             jobId: interview.jobId,
             answer,
-            value: questions.length < 5 ? interview.cv : interview.jd,
+            value: questions.length < 10 ? interview.cv : interview.jd,
           },
         })
         .then((res) => {

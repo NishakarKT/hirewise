@@ -153,7 +153,7 @@ export default function ApplicationsPage() {
                         <TableCell>
                           <Label
                             color={
-                              row.status === 'pending' ? 'warning' : row.status === 'accepted' ? 'success' : 'error'
+                              row.status === 'pending' ||   row.status === 'completed' ? 'warning' : row.status === 'accepted' ? 'success' : 'error'
                             }
                           >
                             {row.status}

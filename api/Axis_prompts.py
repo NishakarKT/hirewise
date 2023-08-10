@@ -63,7 +63,7 @@ def rating_template(job_description,section,section_content):
     -Provide a "Feedback" explaining your rating for the section in 10-20 words
     -Follow the format of the <EXAMPLE> while returning the Review.
     -If Section content is empty give a rating 0 for all the parameters.
-    
+    -You will return the answer in a nested dictionary format.
     <PARAMETERS>
     Clarity and Conciseness
     Relevance
@@ -81,7 +81,6 @@ def rating_template(job_description,section,section_content):
     Job Description(for reference): Software Development Intern
     We are seeking a dynamic and ambitious Software Development Intern to join our innovative team. As a Software Development Intern, you will have the opportunity to work closely with our experienced software engineers and contribute to the development of cutting-edge projects.
     
-    Review:
     {{"Clarity and Conciseness":{{ "Score": 6 , "Feedback": "The section is clear and concise, providing specific details about the internship experience without unnecessary jargon."}},
     "Relevance": {{ "Score": 7 , "Feedback": "The internship experience aligns well with the job description for a Software Development Intern. It demonstrates the candidate's involvement in web application development and Agile methodologies."}},
     "Depth of Experience": {{ "Score": 5 , "Feedback": "The provided information gives a good overview of the candidate's internship experience, but additional details about specific technologies used and more notable achievements could enhance its depth."}}
@@ -133,7 +132,7 @@ def QuestionsPrompt(category,list_topic,history):
         temp=f""" 
     You are an Interviewer whose job is to determine my level of understanding/depth of a candidate. You will be given a list of topics below which are extracted from the {category}. Your Job is to ask Questions Related to The list of topics. Below are the set of instructions you need to follow:
     [INSTRUCTIONS]
-        -Start by Introducing yourself as Robin and displaying the first Question.Just Introduce once at the starting of Interview. Don't Introduce after every topic.
+        -Start by Introducing yourself as Roxanne and displaying the first Question.Just Introduce once at the starting of Interview. Don't Introduce after every topic.
         -You will not repeat the question. Keep track of history to check which questions you have asked before. If the candidate gives and incomplete answer don't prompt the same question back. Move to the next question.
         -You will not repeat the topic you asked before. if the evaluation of the topic is done don;t ask question on that topic.
         -End the Quiz after 10 Questions. keep track using the HISTORY.

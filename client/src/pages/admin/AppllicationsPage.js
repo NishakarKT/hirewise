@@ -115,7 +115,7 @@ export default function ApplicationsPage() {
     setResultsSelected(newResultsSelected);
   };
 
-  const handleChangePage = (event, newPage) => setPage(newPage)
+  const handleChangePage = (event, newPage) => setPage(newPage);
 
   const handleChangeResultsPage = (event, resultsPage) => setResultsPage(resultsPage);
 
@@ -140,18 +140,26 @@ export default function ApplicationsPage() {
 
   const handleCVs = () => {
     const selectedApplis = applis.filter((appli) => selected.includes(`${appli.jobId || ''}$$${appli.userId || ''}`));
-    const apps = selectedApplis.map((appli) => ({ userId: appli.userId, jobId: appli.jobId, file: appli.file }));
+    const apps = selectedApplis.map((appli) => ({
+      userId: appli.userId,
+      jobId: appli.jobId,
+      file: appli.file,
+      jd: appli.job.desc,
+    }));
     setIsRanking(true);
     axios
       .post(ADMIN_RANK_CVS_ENDPOINT, { apps })
       .then((res) => {
-        const rankedCvs = res.data;
-        const rankedApplis = [];
-        rankedCvs.forEach((rankedCv) => {
-          const appli = selectedApplis.find((appli) => appli.userId === rankedCv.userId && appli.jobId === rankedCv.jobId);
-          rankedApplis.push(appli);
+        console.log(res.data);
+        const results = [];
+        const sorted = res.data.sort((a, b) => b.score - a.score);
+        sorted.forEach((rankedCv) => {
+          const appli = selectedApplis.find(
+            (appli) => appli.userId === rankedCv.userId && appli.jobId === rankedCv.jobId
+          );
+          results.push(appli);
         });
-        setResults(rankedApplis);
+        setResults(results);
         setIsRanking(false);
       })
       .catch((err) => {
@@ -165,7 +173,9 @@ export default function ApplicationsPage() {
     const form = e.target;
     const subject = form.subject.value;
     const message = form.message.value;
-    const mailIds = applis.filter((row) => resultsSelected.includes(`${row.jobId || ''}$$${row.userId || ''}`)).map((row) => row.user?.email);
+    const mailIds = applis
+      .filter((row) => resultsSelected.includes(`${row.jobId || ''}$$${row.userId || ''}`))
+      .map((row) => row.user?.email);
     setIsMailing(true);
     axios
       .post(ADMIN_MASS_MAIL_ENDPOINT, { mailIds, subject, message })
@@ -185,7 +195,7 @@ export default function ApplicationsPage() {
   const scheduleInterviews = () => {
     if (results.length) {
       setIsScheduling(true);
-      const data = resultsSelected.map((d) => ({userId: d.split("$$")[1], jobId: d.split("$$")[0]}))
+      const data = resultsSelected.map((d) => ({ userId: d.split('$$')[1], jobId: d.split('$$')[0] }));
       axios
         .post(INTERVIEW_SCHEDULE_ENDPOINT, data)
         .then((res) => {
@@ -324,7 +334,12 @@ export default function ApplicationsPage() {
               <Button disabled={!resultsSelected.length} variant="outlined" onClick={() => setMailOptions(true)}>
                 Mail Applicants
               </Button>
-              <LoadingButton loading={isScheduling} disabled={!resultsSelected.length} variant="contained" onClick={() => scheduleInterviews()}>
+              <LoadingButton
+                loading={isScheduling}
+                disabled={!resultsSelected.length}
+                variant="contained"
+                onClick={() => scheduleInterviews()}
+              >
                 Schedule Interviews
               </LoadingButton>
             </Stack>
@@ -343,42 +358,45 @@ export default function ApplicationsPage() {
                     onSelectAllClick={handleResultsSelectAllClick}
                   />
                   <TableBody>
-                    {results.slice(resultsPage * resultsRowsPerPage, resultsPage * resultsRowsPerPage + resultsRowsPerPage).map((row) => {
-                      const selectedUser = resultsSelected.indexOf(`${row.job?._id || ''}$$${row.user?._id || ''}`) !== -1;
-                      return (
-                        <TableRow
-                          hover
-                          key={row._id + row.job?._id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={selectedUser}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={selectedUser}
-                              onChange={(event) =>
-                                handleResultsClick(event, `${row.job?._id || ''}$$${row.user?._id || ''}`)
-                              }
-                            />
-                          </TableCell>
-                          <TableCell component="th" scope="row">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar src={''} alt={row.user.name || row.user.email || 'User'} />
-                              <Typography variant="subtitle2" noWrap>
-                                {row.user?.name || 'User'}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
-                          <TableCell align="left">{row.user?.email}</TableCell>
-                          <TableCell align="left">{row.job?.name}</TableCell>
-                          <TableCell align="left">
-                            <Label color={(row.job?.status === 'Not Available' && 'error') || 'success'}>
-                              {sentenceCase(row.job?.status || 'Available')}
-                            </Label>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                    {results
+                      .slice(resultsPage * resultsRowsPerPage, resultsPage * resultsRowsPerPage + resultsRowsPerPage)
+                      .map((row) => {
+                        const selectedUser =
+                          resultsSelected.indexOf(`${row.job?._id || ''}$$${row.user?._id || ''}`) !== -1;
+                        return (
+                          <TableRow
+                            hover
+                            key={row._id + row.job?._id}
+                            tabIndex={-1}
+                            role="checkbox"
+                            selected={selectedUser}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={selectedUser}
+                                onChange={(event) =>
+                                  handleResultsClick(event, `${row.job?._id || ''}$$${row.user?._id || ''}`)
+                                }
+                              />
+                            </TableCell>
+                            <TableCell component="th" scope="row">
+                              <Stack direction="row" alignItems="center" spacing={2}>
+                                <Avatar src={''} alt={row.user.name || row.user.email || 'User'} />
+                                <Typography variant="subtitle2" noWrap>
+                                  {row.user?.name || 'User'}
+                                </Typography>
+                              </Stack>
+                            </TableCell>
+                            <TableCell align="left">{row.user?.email}</TableCell>
+                            <TableCell align="left">{row.job?.name}</TableCell>
+                            <TableCell align="left">
+                              <Label color={(row.job?.status === 'Not Available' && 'error') || 'success'}>
+                                {sentenceCase(row.job?.status || 'Available')}
+                              </Label>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                     {emptyRows > 0 && (
                       <TableRow style={{ height: 53 * emptyRows }}>
                         <TableCell colSpan={6} />
@@ -412,14 +430,14 @@ export default function ApplicationsPage() {
               </TableContainer>
             </Scrollbar>
             <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={results.length}
-            rowsPerPage={resultsRowsPerPage}
-            page={resultsPage}
-            onPageChange={handleChangeResultsPage}
-            onRowsPerPageChange={handleChangeResultsRowsPerPage}
-          />
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={results.length}
+              rowsPerPage={resultsRowsPerPage}
+              page={resultsPage}
+              onPageChange={handleChangeResultsPage}
+              onRowsPerPageChange={handleChangeResultsRowsPerPage}
+            />
           </Card>
         ) : null}
 

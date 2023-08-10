@@ -1,12 +1,25 @@
+import fs from "fs";
 import { templateToHTML, sendMail } from "../services/mail-services.js";
 import { handlebarsReplacements } from "../services/misc-services.js";
 import fetch from "node-fetch";
-import { API_JD_EVAL_ENDPOINT } from "../constants/endpoints.js";
+import { API_CV_EVAL_ENDPOINT, API_JD_EVAL_ENDPOINT } from "../constants/endpoints.js";
 
 export const rankCvs = async (req, res) => {
   try {
     const { apps } = req.body;
-    res.status(200).send(apps);
+    const results = [];
+    apps.forEach(async ({ file, userId, jobId, jd }) => {
+      // read .txt file
+      const cv = fs.readFileSync("media/" + file, "utf-8");
+      const response = await fetch(API_CV_EVAL_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ JD: jd, CV: cv, user_id: userId }),
+      });
+      const data = await response.json();
+      results.push({ userId, jobId, score: data.data });
+      if (results.length === apps.length) res.status(200).send(results);
+    });
   } catch (err) {
     res.status(500).send({ error: err.message || "Something went wrong" });
   }
@@ -33,11 +46,11 @@ export const massMail = async (req, res) => {
 
 export const suggestDesc = async (req, res) => {
   try {
-    const { desc } = req.body;
+    const { desc, userId } = req.body;
     const response = await fetch(API_JD_EVAL_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ jd_contents: desc }),
+      body: JSON.stringify({ JD: desc, user_id: userId }),
     });
     const data = await response.json();
     return res.status(200).send(data);

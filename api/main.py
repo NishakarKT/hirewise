@@ -29,7 +29,7 @@ class CompletionGenerator:
     def generate_chat_completion(prompt: str,query: str) -> str:
         completion = openai.ChatCompletion.create(
           model="gpt-3.5-turbo",
-          temperature = 0.7,
+          temperature = 0,
           max_tokens=256,
           messages=[
             {"role": "assistant", "content": prompt},
@@ -75,6 +75,7 @@ class CV_database(CompletionGenerator):
         avg_score = total_score/no_of_params
         return avg_score
 
+
     def eval_CV_JD(self, JD, CV):
         self.CV = CV
         self.CV_new = CV_database.reformat_CV(self.CV)
@@ -83,8 +84,8 @@ class CV_database(CompletionGenerator):
         for section, section_content in self.CV_new.items():
             rating_prompt = Axis_prompts.rating_template(JD,section,section_content) 
             rating_string = CompletionGenerator.generate_chat_completion(prompt=rating_prompt,query="")
-            print(rating_string)
             rating_string.replace("\n", "").replace(" ", "")
+            print(rating_string)
             rating_dictionary = ast.literal_eval(rating_string)
             rating_section[section] = rating_dictionary
         self.rating_section = rating_section

@@ -30,7 +30,7 @@ export default function Router() {
       path: '/user/',
       element: user?.role === 'user' ? <UserLayout /> : <Navigate to="/auth" />,
       children: [
-        { element: <Navigate to="interviews" />, index: true },
+        { element: <Navigate to="jobs" />, index: true },
         { path: 'jobs', element: <JobsPage /> },
         { path: 'interviews', element: <InterviewsPage /> },
       ],
@@ -39,7 +39,7 @@ export default function Router() {
       path: '/admin/',
       element: user?.role === 'admin' ? <AdminLayout /> : <Navigate to="/auth" />,
       children: [
-        { element: <Navigate to="jobs" />, index: true },
+        { element: <Navigate to="interviews" />, index: true },
         { path: 'interviews', element: <AdminInterviewsPage /> },
         { path: 'applications', element: <ApplicationsPage /> },
         { path: 'jobs', element: <AdminJobsPage /> },
