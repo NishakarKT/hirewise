@@ -1,0 +1,41 @@
+Desired Industry: Information Technology
+SpiderID: 84220
+Desired Job Location: Brooklyn, New York
+Date Posted: 7/7/2023
+Type of Position: Contractor
+Availability Date:
+Desired Wage:
+
+
+U.S. Work Authorization:
+Job Level: Experienced with over 2 years experience
+Willing to Travel: No
+Highest Degree Attained:
+Willing to Relocate: No
+Experience:
+● 7+ years of experience in Software Development Life Cycle including Analysis, Development, Testing, & Deployment of web applications using Golang technologies.
+● Experienced on several development practices like Test Driven Development, and Agile/SCRUM methodologies.
+● Hands-on experience in Object-Oriented Analysis, Design, and Programming tools with Unified Modeling Language (UML).
+● Expert in Golang concepts like Slices, Maps, Structs, Interfaces, Goroutines & Channels, GO kit, GORM, CLI, Gorilla Mux, GO-hystrix, GOdoc.
+● Hands - on exposure in Designing, Developing and Testing the Microservices with Golang’s concepts like Channels, routines and Interfaces.
+● Good Hands-on working knowledge in developing Restful webservices and Micro Services with Golang.
+● Used dependency management tools such as Godep and GO Modules.
+● Hands-on experience with Kafka consumer and producer APIs.
+● Experience in developing applications in a single page (SPAs) using JavaScript framework Angular.
+● Working knowledge of SOAP, WSDL, and RESTful for exchanging structured information in the implementation of web services using Golang.
+● Expertise in Distributed and Web environments, focused in Golang concepts like Channels, Routines, Interfaces etc.
+● Experience in testing Code and Microservices using various open-source frameworks in Golang.
+● Worked on Docker Container, Docker Hub, creating Docker images and deploying them to Kubernetes.
+● Expertise with middleware components in Golang - multithreading, data structures, TCP/IP socket programming, and design patterns.
+● Experience in working with Amazon Web Services like EC2, EBS, ELB, S3, SQS, Lambda, DynamoDB and Elastic Search and integration with AWS GO SDK.
+● Experience with GIT, CVS and SVN for Source Code version management and merging Source code after intermittent project releases.
+● Expertise in database modeling, administration and development in Oracle, MySQL, SQL Server, DB2 environments as well as NoSQL like MongoDB.
+● Working knowledge of GRPC to connect backend API's and testing tools like Ginkgo and Go-mega framework.
+● Experience with Goroutines to design, develop, and deploy production systems like scale monitoring and instrumentation platform.
+● Understanding and experience of working on team, ability to adapt different cultural environment and work with people from
+●different cultures.
+Skills:
+Golang, AWS, Docker, Kubernetes, Kafka, Jenkins, JWT, MySQL, Redis, PostgreSQL, GIT
+Candidate Contact Information:
+JobSpider.com has chosen not to make contact information available on this page.
+Click "Contact Candidate" to send this candidate a response.

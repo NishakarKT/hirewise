@@ -1,0 +1,89 @@
+Desired Industry: Information Technology
+SpiderID: 84262
+Desired Job Location: Addison, Texas
+Date Posted: 7/28/2023
+Type of Position: Contractor
+Availability Date:
+Desired Wage:
+
+
+U.S. Work Authorization: Yes
+Job Level: Experienced with over 2 years experience
+Willing to Travel: Yes, More Than 75%
+Highest Degree Attained: Masters
+Willing to Relocate:
+Objective:
+Over 15 years of experience in IT industry with 5+ years in Process Automation, 4+ years in Solutions Architecture, Technical Lead, Project Management, Infrastructure Solutions Implementation, Business Analysis Integration, Migration & Operations Management in Healthcare, Insurance and Manufacturing domains. Involved in designing & implementing Enterprise Class Solutions using the right technology, tools and architecture. Experience in Application Services, Integration, Process Automation, and Cloud Platform Implementations such as On Prem software infrastructure & in Azure Cloud. Over 3 Years in MS Azure DevOps, Build and Release Engineer and Cloud Microsoft Azure Architect, with major focus on building automation solutions.
+Experience:
+Client: NASCO (Subsidiary of BCBS of Michigan) Jun’ 21 – Present
+Project: Automation COE Cloud Projects
+Role: Cloud Solutions Architect/Technology Lead
+
+National Account Service Company is a subsidiary of Blue Cross and Blue Shield of Michigan. QEAST (Quality Engineering and Software Technologies) cloud automation projects were setup to create new infrastructure for migrating automation applications across enterprise to improve productivity and reduce maintenance cost. Projects involved in collaborating with IT Quality and Operations areas in order to create cloud virtual workers that increase compliance, saves time & money, leads to faster decisions and improved processes. Cloud infrastructure with Virtual workers were deployed in business units such as Quality check, Healthcare IT workflows, Medicare Billing process, Claims management, Benefits, Members Edge, Healthcare authorizations & adjustments, insurance verification, Financial Data Entry, audit procedures, HR payroll and administrative data processing. Goal of cloud automation projects was to reduce maintenance cost, eliminate repetitive steps, full resource utilization and enhance productivity.
+
+Responsibilities:
+• Worked on setting up of end-to-end cloud infrastructure across enterprise for providing an automation solution.
+• Worked on data migration projects involving databases, virtual machines and automation applications using MS Azure IAAS VMs.
+• Design, develop and test mission-critical enterprise software programs, and custom application development projects using ASP.NET Core, SQL Server, and Microsoft cloud technology.
+• Working with Business Owners, operational team, developers and functional/nonfunctional SMEs for requirement analysis, define scope and feasibility study for Cloud integration and migration projects.
+• Extensive experience in Infrastructure and Cloud in enterprise environments with end-to-end cloud-native transformation projects from on-prem to MS Azure Cloud.
+• Architecture design and provide detailed solution design and solution proposal. Design and Implementation of cloud-based Project Managements system using various Azure components. Using decoupled architecture and well-defined interfaces
+• Manage and lead multi-site team for continuous identification and implementation of Automations for cloud projects involving creation of Virtual Machines, adding them to VNet and deploy in production environment.
+• Followed Agile framework and attended daily standup with the updates on the task completed and planned
+• Lead offshore team in agile framework from design to production of all new and cloud migration projects.
+• Worked on Front End design and enhancements on an Azure backend and implemented a CI/CD pipeline for Content enhancements team.
+• Provisioning Azure resources Resource groups, APP Services, SQL Databases, Security Groups, Firewall Setups,
+Logic APPS using ARM templates.
+• Independently worked on Solution design, automation technology implementation, POC delivery, build and maintaining of all RPA BOTs in production operations across different areas such as quality data check, mainframes, clinical document validation, near real-time data creation of reports, submission of forms, archiving, hyper linking, event alerts, making calculations, pulling data and organizing it for review were some of the automation candidates
+• Involved in setting up of RPA infrastructure, including server installation, orchestration setup for both non production and production environment. Created tenants, robots, machine templates, processes, assets, queues, triggers, users and monitoring of logs.
+• Outlined RPA strategy and implemented for process involving interactive applications, Remote apps, desktop-based clients and java-based legacy applications
+• Coached and mentored Junior developers and provided technical assistance as required
+• Conducted project meetings, communicate project expectations and ensuring that all project team members have the tools required to perform effectively and deliver as per expectation
+• Detailed level reporting to Sr managers on progress of the projects, issues, blocks, recommendation and improvements to achieve goals.
+Environment: Microsoft Azure Platform, VPC, IAM, VPN, Cloud Formation, Cloud watch, SNS, Jenkins, GIT, Ansible, Microservices, Nexus, C, .NET, Docker, Apache Webserver, KVM, Windows, Solaris, Tomcat, Red Hat, Linux, Apache, Restful, Java, Python, Shell, Agile, SQL server, Oracle Apps, SAP ERP, JAVA web-based legacy apps, TFS, Jira. SAP, Microsoft Applications
+
+
+
+
+SHIRO Technologies LLC, Addison TX Feb’ 19 – June’21
+Client: The Boeing Company Seattle WA
+Project: ITBGC Cloud Projects and Automation
+Role: Cloud Solution Architect/Lead
+
+The Boeing IT Compliance Automation Projects was to perform Cloud migration of Robotic Process Automation applications for Proof of Value within BAAM (Boeing Accounts and Access Management) applications in order to improve better customer service experience. IT-BPAT (IT- Business Process Automation Team) Goal was to manage multi-site team to build cloud infrastructure to automate ready to deliver services to Boeing IT compliance assessment applications, access management applications and their testing attributes. Cloud setup was to create and manage activities within Boeing legacy applications with no or minimal developer support reducing dependency of traditional on prem application features.
+
+Responsibilities:
+• Architecture design and solution planning. End to End design and develop cloud infrastructure for Web Apps, API Apps using MS Azure cloud-based services.
+• Design & Develop applications for generating Reports. Develop an automation portal for flight quality test and hardware management business process.
+• Worked on configuring orchestration with of automation tools, enterprise application deployment in several nodes, autoscaling, logging and monitoring. Azure App Service for the Java and python-based services deployment and updates. Planning and delegation of activities to the Team. Co-ordinating off-shore teams and Issues resolution
+• Worked on upgrade and implementation of virtual machines, VNet, Azure functions and databases for various business process and operations. Worked in complete cycle of migrating physical Windows & Linux machines to Azure Cloud.
+• Design and develop operations application Architecture and SaaS application Architecture for Transport Management and Warehouse replacement
+• Used Azure Monitor to monitor VMs and services on a daily basis to keep zero downtime.
+• Designed Middleware project workflows and pipelines using script in MS Azure DevOps as CI tool, key role in converting existing Jenkins jobs into the new pipeline process.
+• Evaluate whether the processes are suitable for automation and prioritize the requirements in TFS
+• Working experience with Git for source code version control and integrated with DevOps for CI/CD pipeline
+• Worked on Customizing DevOps pipeline for inherited process. Managed Source Code Repository in GIT.
+• Created, configured, and managed a cluster of VMs that are preconfigured to run containerized applications using Azure container services, Azure Web Roles, Worker Roles, SQL Azure, Azure Storage, Azure Virtual Machines, Azure Virtual Networks, subnets and Azure AD Licenses.
+• Create the Infrastructure with terraform and deploy the Docker containers. Used Ansible and Ansible Tower as Configuration management tool, to automate repetitive tasks, deploys critical applications, and proactively manage the changes.
+• Coordinated with technical teams across multiple locations and time zone to achieve cloud projects and automation solution.
+
+Environment: Azure Cloud, Microsoft Dynamics CRM, Dynamics 365 API Management, BluePrism Cloud, MS Teams, Flow (Power Automate), Office 365 Groups, TFS 2018, Azure DevOps 2019, PowerShell, GIT, Visual Studio 2018, Visual Studio Code, Proxy Server, Macros, User Access Reviews, ServiceNow, Active directory, IBM BPM, Oracle PeopleSoft, SAP ERP, JAVA based legacy apps, TFS, Jira. SAP, PeopleSoft, Microsoft Applications
+Skills:
+Operating Systems Linux, RHEL/Ubuntu/Debian/Fedora, Windows
+Languages .NET, Visual Basic, Python
+Databases MySQL, MongoDB, SQL Server
+Scripts Shell Script, ANT Script, Batch Script, Perl Script, Power Shell Script, Groovy.
+Version Control/Build Tools GIT, Bitbucket, GitHub, Jira
+Web/App Server Apache, IIS, HIS, Tomcat, WebSphere Application Server, JBoss
+CI/CD Tools Jenkins, Azure DevOps
+Orchestration Docker Swarm, Kubernetes. Portainer, Rancher
+Azure Services Azure AD, Azure Policies, Resource group, Azure cost management, Azure functions, azure run books, Azure auto manage, Azure scaling, Azure queues, Azure DevOps, Azure app service, Azure scheduler, Azure migrate, Azure traffic manager, VNet, Azure security center.
+Configuration Management Terraform, Ansible
+Reporting Tools Business Objects XIR2/6.5 (Supervisor, Designer, Business Objects)
+Framework/Automation TestNG, Page Object Model, Rest Assured, Appium, WebDriver
+Robotic Process UiPath, Blue prism,
+S/W Methodologies Water Fall Model, Iterative, Agile Programming, Agile Scrum
+Other Tools RPA Tools, SAP, IBM BPM, Microsoft Dynamics, PEGA PRPC SAP BOBI, SAP
+Candidate Contact Information:
+JobSpider.com has chosen not to make contact information available on this page.
+Click "Contact Candidate" to send this candidate a response.

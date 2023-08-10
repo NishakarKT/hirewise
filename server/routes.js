@@ -8,7 +8,6 @@ import * as jobCtrls from "./ctrls/job-ctrls.js";
 import * as adminCtrls from "./ctrls/admin-ctrls.js";
 import * as interviewCtrls from "./ctrls/interview-ctrls.js";
 import * as questionCtrls from "./ctrls/question-ctrls.js";
-import * as toolCtrls from "./ctrls/tool-ctrls.js";
 import * as fileCtrls from "./ctrls/file-ctrls.js";
 
 const Router = express.Router();
@@ -32,8 +31,6 @@ Router.post("/interview/submit", interviewCtrls.submitInterview);
 Router.patch("/interview/update", interviewCtrls.updateInterview);
 // Question Routes
 Router.get("/question/get", questionCtrls.getQuestions);
-// Tools Routes
-Router.post("/tool/rank-cvs", toolCtrls.rankCvs);
 // Admin Routes
 Router.post("/admin/rank-cvs", adminCtrls.rankCvs);
 Router.post("/admin/mass-mail", adminCtrls.massMail);

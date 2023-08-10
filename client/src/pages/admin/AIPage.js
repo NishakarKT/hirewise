@@ -16,11 +16,13 @@ import {
   TableContainer,
   TablePagination,
   Button,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // constants
 import { COMPANY } from '../../constants/vars';
-import { FILE_UPLOAD_ENDPOINT, TOOL_RANK_CVS_ENDPOINT } from '../../constants/endpoints';
+import { API_CV_JD_EVAL_ENDPOINT, FILE_UPLOAD_ENDPOINT, JOB_GET_ENDPOINT } from '../../constants/endpoints';
 // contexts
 import AppContext from '../../contexts/AppContext';
 // components
@@ -47,6 +49,8 @@ export default function ApplicationsPage() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [resultsRowsPerPage, setResultsRowsPerPage] = useState(5);
   const [isRanking, setIsRanking] = useState(false);
+  const [job, setJob] = useState(null);
+  const [jobs, setJobs] = useState([]);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -96,44 +100,55 @@ export default function ApplicationsPage() {
 
   const handleCVs = () => {
     const selectedResumes = resumes.filter((row) => selected.includes(row.name));
-    const files = new FormData();
-    const fileNames = [];
+    const cvs = [];
     selectedResumes.forEach((resume) => {
-      const fileName = `admin-${user?._id}-${resume.name}`;
-      fileNames.push(fileName);
-      const newFile = new File([resume.file], fileName, { type: resume.file.type });
-      files.append('files', newFile);
+      const file = resume.file;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const text = e.target.result;
+        cvs.push({ cv: text, jd: jobs.find((j) => j._id === job)?.desc });
+        if (cvs.length === selectedResumes.length) {
+          console.log(cvs);
+          // cvs.forEach(({ cv, jd }) => {
+          //   axios
+          //     .post(API_CV_JD_EVAL_ENDPOINT, { CV: cv, JD: jd })
+          //     .then((res) => console.log(res.data))
+          //     .catch((err) => console.log(err));
+          // });
+        }
+      };
+      reader.readAsText(file);
     });
-    setIsRanking(true);
-    axios
-      .post(FILE_UPLOAD_ENDPOINT, files, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        axios
-          .post(TOOL_RANK_CVS_ENDPOINT, { files: fileNames })
-          .then((res) => {
-            const { files } = res.data;
-            const results = [];
-            resumes.forEach((resume) => {
-              if (files.find((file) => file.includes(resume.name))) results.push(resume);
-            });
-            setResults(results);
-            setIsRanking(false);
-          })
-          .catch((err) => {
-            console.log(err);
-            setIsRanking(false);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsRanking(false);
-      });
+    // setIsRanking(true);
+    // axios
+    //   .post(API_CV_JD_EVAL_ENDPOINT, { files: fileNames, desc: jobs.find((j) => j._id === job)?.desc })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     const { files } = res.data;
+    //     const results = [];
+    //     resumes.forEach((resume) => {
+    //       if (files.find((file) => file.includes(resume.name))) results.push(resume);
+    //     });
+    //     setResults(results);
+    //     setIsRanking(false);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setIsRanking(false);
+    //   });
   };
+
+  useEffect(() => {
+    axios
+      .get(JOB_GET_ENDPOINT)
+      .then((res) => {
+        if (res.data.length) {
+          setJobs(res.data);
+          setJob(res.data[0]._id);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     if (files.length) {
@@ -168,11 +183,20 @@ export default function ApplicationsPage() {
               type="file"
               multiple
               onChange={(e) => setFiles(e.target.files)}
-              accept="application/pdf"
+              accept=".txt,.pdf,.docx"
             />
-            <Button variant="outlined" onClick={() => filesRef.current?.click()}>
-              Upload
-            </Button>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              {job ? (
+                <Select variant="standard" sx={{ minWidth: 200 }} value={job} onChange={(e) => setJob(e.target.value)}>
+                  {jobs.map((job) => (
+                    <MenuItem value={job._id}>{job.name}</MenuItem>
+                  ))}
+                </Select>
+              ) : null}
+              <Button variant="outlined" onClick={() => filesRef.current?.click()}>
+                Upload
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
         <Card>
