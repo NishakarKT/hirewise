@@ -27,14 +27,24 @@ from langchain import OpenAI, LLMChain, PromptTemplate
 import textstat
 import fastapi
 from flask import jsonify
-
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
 app = fastapi.FastAPI()  
 
 #Read the JD
 # parsed_jd = parser.from_file('model_jd_2.txt')
 # jd_contents = parsed_jd['content'].strip()
 
-@app.post("/jd_eval/jd_contents")
+class JDInput(BaseModel):
+    jd_contents: str
+
+class JDResult(BaseModel):
+    overall_readability_score: float
+    section_scores: dict
+    final_score: float
+    recommended_sections: dict
+
+@app.post("/jd_eval/")
 def jd_eval(jd_contents: str):
     #Define the Prompt Template
     template = PromptTemplate.from_template(
@@ -102,4 +112,4 @@ def jd_eval(jd_contents: str):
         'recommended_sections': recommended_sections
     }
 
-    return (jsonify(return_dict), 200)
+    return (JSONResponse(return_dict))
