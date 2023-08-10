@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 // @mui
-import { Container, Grid, Button, Stack, TextField, Typography } from '@mui/material';
+import { Box, Container, Grid, Stack, TextField, Typography, CircularProgress, Tooltip } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // constants
 import { COMPANY } from '../../constants/vars';
@@ -10,11 +10,39 @@ import { JOB_NEW_ENDPOINT, JOB_GET_ENDPOINT, ADMIN_SUGGEST_DESC_ENDPOINT } from 
 // components
 import { JobList } from '../../sections/@dashboard/jobs';
 
+function CircularProgressWithLabel(props) {
+  return (
+    <Tooltip title={props.title}>
+      <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+        <CircularProgress variant="determinate" {...props} />
+        <Box
+          sx={{
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography variant="caption" component="div" color="text.secondary">{`${Math.round(
+            props.value
+          )}%`}</Typography>
+        </Box>
+      </Box>
+    </Tooltip>
+  );
+}
+
 export default function AdminJobsPage() {
   const formRef = useRef(null);
   const [jobs, setJobs] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isSuggesting, setIsSuggesting] = useState(false);
+  const [finalScore, setFinalScore] = useState(0);
+  const [readabilityScore, setReadabilityScore] = useState(0);
   const [suggestedDescription, setSuggestedDescription] = useState('');
 
   const handleNewJob = (e) => {
@@ -40,8 +68,16 @@ export default function AdminJobsPage() {
     axios
       .post(ADMIN_SUGGEST_DESC_ENDPOINT, { desc })
       .then((res) => {
-        const suggestedDesc = res.data.desc;
-        setSuggestedDescription(suggestedDesc);
+        const data = res.data;
+        console.log(data);
+        let desc = '';
+        Object.keys(data.recommended_sections).forEach((section) => {
+          desc += `${section}\n`;
+          desc += `${data.recommended_sections[section]}\n\n`;
+        });
+        setFinalScore(data.final_score);
+        setReadabilityScore(data.overall_readability_score);
+        setSuggestedDescription(desc);
         setIsSuggesting(false);
       })
       .catch((err) => {
@@ -84,15 +120,7 @@ export default function AdminJobsPage() {
               <TextField fullWidth required name="deadline" label="Deadilne" />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField
-                fullWidth
-                onBlur={() => handleSuggestedDescription()}
-                required
-                name="desc"
-                label="Description"
-                rows={4}
-                multiline
-              />
+              <TextField fullWidth required name="desc" label="Description" rows={4} multiline />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField
@@ -105,25 +133,24 @@ export default function AdminJobsPage() {
               />
             </Grid>
             <Grid item xs={12}>
-              <Stack direction="row" spacing={2}>
-                <LoadingButton
-                  fullWidth
-                  loading={isSuggesting}
-                  color="error"
-                  variant="contained"
-                  onClick={() => formRef.current?.reset()}
-                >
-                  Clear
-                </LoadingButton>
-                <LoadingButton
-                  type="submit"
-                  fullWidth
-                  loading={isSuggesting || isUploading}
-                  color="primary"
-                  variant="contained"
-                >
-                  Submit
-                </LoadingButton>
+              <Stack direction="row" justifyContent="space-between" spacing={2}>
+                <Stack direction="row" justifyContent="flex-end" spacing={2}>
+                  <CircularProgressWithLabel title="Final Score" value={(finalScore * 100).toFixed(0)} color={finalScore < 0.5 ? "error" : "success"} />
+                  <CircularProgressWithLabel title="Readability Score" value={(readabilityScore * 100).toFixed(0)} color={readabilityScore < 0.5 ? "error" : "success"} />
+                </Stack>
+                <Stack direction="row" justifyContent="flex-start" spacing={2}>
+                  <LoadingButton
+                    onClick={handleSuggestedDescription}
+                    loading={isSuggesting}
+                    color="primary"
+                    variant="outlined"
+                  >
+                    Suggest
+                  </LoadingButton>
+                  <LoadingButton type="submit" loading={isUploading} color="primary" variant="contained">
+                    Submit
+                  </LoadingButton>
+                </Stack>
               </Stack>
             </Grid>
           </Grid>

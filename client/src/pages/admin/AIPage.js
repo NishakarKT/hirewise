@@ -22,7 +22,7 @@ import {
 import { LoadingButton } from '@mui/lab';
 // constants
 import { COMPANY } from '../../constants/vars';
-import { API_CV_JD_EVAL_ENDPOINT, FILE_UPLOAD_ENDPOINT, JOB_GET_ENDPOINT } from '../../constants/endpoints';
+import { TOOL_RANK_CVS_ENDPOINT, JOB_GET_ENDPOINT } from '../../constants/endpoints';
 // contexts
 import AppContext from '../../contexts/AppContext';
 // components
@@ -108,34 +108,14 @@ export default function ApplicationsPage() {
         const text = e.target.result;
         cvs.push({ cv: text, jd: jobs.find((j) => j._id === job)?.desc });
         if (cvs.length === selectedResumes.length) {
-          console.log(cvs);
-          // cvs.forEach(({ cv, jd }) => {
-          //   axios
-          //     .post(API_CV_JD_EVAL_ENDPOINT, { CV: cv, JD: jd })
-          //     .then((res) => console.log(res.data))
-          //     .catch((err) => console.log(err));
-          // });
+          axios
+            .post(TOOL_RANK_CVS_ENDPOINT, { cvs, jd: jobs.find((j) => j._id === job)?.desc })
+            .then((res) => console.log(res.data))
+            .catch((err) => console.log(err));
         }
       };
       reader.readAsText(file);
     });
-    // setIsRanking(true);
-    // axios
-    //   .post(API_CV_JD_EVAL_ENDPOINT, { files: fileNames, desc: jobs.find((j) => j._id === job)?.desc })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     const { files } = res.data;
-    //     const results = [];
-    //     resumes.forEach((resume) => {
-    //       if (files.find((file) => file.includes(resume.name))) results.push(resume);
-    //     });
-    //     setResults(results);
-    //     setIsRanking(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setIsRanking(false);
-    //   });
   };
 
   useEffect(() => {

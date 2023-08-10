@@ -39,7 +39,7 @@ export default function Router() {
       path: '/admin/',
       element: user?.role === 'admin' ? <AdminLayout /> : <Navigate to="/auth" />,
       children: [
-        { element: <Navigate to="tools" />, index: true },
+        { element: <Navigate to="jobs" />, index: true },
         { path: 'interviews', element: <AdminInterviewsPage /> },
         { path: 'applications', element: <ApplicationsPage /> },
         { path: 'jobs', element: <AdminJobsPage /> },

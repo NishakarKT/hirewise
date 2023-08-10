@@ -26,10 +26,22 @@ from langchain.chains.conversation.memory import ConversationBufferMemory
 from langchain import OpenAI, LLMChain, PromptTemplate
 import textstat
 import fastapi
+from fastapi.middleware.cors import CORSMiddleware
 from flask import jsonify
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 app = fastapi.FastAPI()  
+
+origins = [
+    "*",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 #Read the JD
 # parsed_jd = parser.from_file('model_jd_2.txt')
@@ -45,7 +57,9 @@ class JDResult(BaseModel):
     recommended_sections: dict
 
 @app.post("/jd_eval/")
-def jd_eval(jd_contents: str):
+def jd_eval(request: JDInput):
+    jd_contents = request.jd_contents
+    print(jd_contents)
     #Define the Prompt Template
     template = PromptTemplate.from_template(
         """You are a human resource manager. You are reading a job description for a job opening at your company. Given the job description, you need to answer the following questions:

@@ -1,3 +1,4 @@
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.responses import StreamingResponse
@@ -34,6 +35,17 @@ import requests
 import Axis_prompts
 openai.api_key = "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"
 app = FastAPI()
+
+origins = [
+    "*",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class CompletionGenerator:
 

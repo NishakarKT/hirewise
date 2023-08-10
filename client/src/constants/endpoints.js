@@ -16,6 +16,8 @@ export const JOB_APPLY_ENDPOINT = `${BASE}/job/apply`;
 export const JOB_GET_APPLIS_ENDPOINT = `${BASE}/job/get-applis`;
 // question endpoints
 export const QUESTION_GET_ENDPOINT = `${BASE}/question/get`;
+// tool endpoints
+export const TOOL_RANK_CVS_ENDPOINT = `${BASE}/tool/rank-cvs`;
 // admin endpoints
 export const ADMIN_RANK_CVS_ENDPOINT = `${BASE}/admin/rank-cvs`;
 export const ADMIN_MASS_MAIL_ENDPOINT = `${BASE}/admin/mass-mail`;

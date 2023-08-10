@@ -1,4 +1,3 @@
-
 // config
 import "./config/config.js";
 
@@ -23,4 +22,4 @@ app.use("/", Router);
 
 // set up mongoDB
 const PORT = process.env.PORT || 8001;
-app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));
