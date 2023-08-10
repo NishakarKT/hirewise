@@ -31,7 +31,8 @@ Router.post("/interview/schedule", interviewCtrls.scheduleInterviews);
 Router.post("/interview/submit", interviewCtrls.submitInterview);
 Router.patch("/interview/update", interviewCtrls.updateInterview);
 // Question Routes
-Router.get("/question/get", questionCtrls.getQuestions);
+Router.get("/question/get-cv", questionCtrls.getQuestionCV);
+Router.get("/question/get-jd", questionCtrls.getQuestionJD);
 // Tool Routes
 Router.post("/tool/rank-cvs", toolCtrls.rankCVs);
 // Admin Routes

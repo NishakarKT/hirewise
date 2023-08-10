@@ -22,7 +22,7 @@ import {
 import { Close } from '@mui/icons-material';
 // constants
 import { COMPANY } from '../../constants/vars';
-import { INTERVIEW_GET_ENDPOINT } from '../../constants/endpoints';
+import { INTERVIEW_GET_ENDPOINT, JOB_GET_APPLIS_ENDPOINT } from '../../constants/endpoints';
 // contexts
 import AppContext from '../../contexts/AppContext';
 // components
@@ -42,6 +42,7 @@ const TABLE_HEAD = [
 
 export default function ApplicationsPage() {
   const [interview, setInterview] = useState(null);
+  const [applis, setApplis] = useState([]);
   const [interviews, setInterviews] = useState([]);
   const { user } = useContext(AppContext);
   const [page, setPage] = useState(0);
@@ -75,6 +76,10 @@ export default function ApplicationsPage() {
       axios
         .get(INTERVIEW_GET_ENDPOINT, { params: { userId: user?._id } })
         .then((res) => setInterviews(res.data))
+        .catch((err) => console.log(err));
+      axios
+        .get(JOB_GET_APPLIS_ENDPOINT, { params: { userId: user?._id } })
+        .then((res) => setApplis(res.data))
         .catch((err) => console.log(err));
     }
   }, [user]);
@@ -129,7 +134,16 @@ export default function ApplicationsPage() {
                             }}
                             onClick={() =>
                               row.job?.status === 'Available'
-                                ? setInterview({ userId: user?._id, jobId: row.job?._id })
+                                ? setInterview({
+                                    userId: user?._id,
+                                    jobId: row.job?._id,
+                                    cv: applis.find(
+                                      (appli) => appli.user?._id === row.user?._id && appli.job?._id === row.job?._id
+                                    )?.file,
+                                    jd: applis.find(
+                                      (appli) => appli.user?._id === row.user?._id && appli.job?._id === row.job?._id
+                                    )?.job?.desc,
+                                  })
                                 : null
                             }
                           >
@@ -138,7 +152,9 @@ export default function ApplicationsPage() {
                         </TableCell>
                         <TableCell>
                           <Label
-                            color={row.status === 'pending' ? 'warning' : row.status === 'accepted' ? 'success' : 'error'}
+                            color={
+                              row.status === 'pending' ? 'warning' : row.status === 'accepted' ? 'success' : 'error'
+                            }
                           >
                             {row.status}
                           </Label>

@@ -15,7 +15,8 @@ export const JOB_NEW_ENDPOINT = `${BASE}/job/new`;
 export const JOB_APPLY_ENDPOINT = `${BASE}/job/apply`;
 export const JOB_GET_APPLIS_ENDPOINT = `${BASE}/job/get-applis`;
 // question endpoints
-export const QUESTION_GET_ENDPOINT = `${BASE}/question/get`;
+export const QUESTION_GET_CV_ENDPOINT = `${BASE}/question/get-cv`;
+export const QUESTION_GET_JD_ENDPOINT = `${BASE}/question/get-jd`;
 // tool endpoints
 export const TOOL_RANK_CVS_ENDPOINT = `${BASE}/tool/rank-cvs`;
 // admin endpoints

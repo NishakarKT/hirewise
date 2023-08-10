@@ -1,11 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import axios from 'axios';
 // mui
 import { Stack, TextField, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Mic, MicOff, VolumeMute } from '@mui/icons-material';
+// contexts
+import AppContext from '../../../contexts/AppContext';
 // constants
-import { QUESTION_GET_ENDPOINT, INTERVIEW_SUBMIT_ENDPOINT } from '../../../constants/endpoints';
+import {
+  QUESTION_GET_CV_ENDPOINT,
+  QUESTION_GET_JD_ENDPOINT,
+  INTERVIEW_SUBMIT_ENDPOINT,
+} from '../../../constants/endpoints';
 import { VIDEOS_BOT_MP4 } from '../../../constants/videos';
 // utils
 import { clearExistingTimeouts } from '../../../utils/misc';
@@ -25,6 +31,7 @@ Recognition.lang = 'en-US';
 Recognition.continuous = true;
 
 const Interview = ({ interview }) => {
+  const { user } = useContext(AppContext);
   const userRef = useRef(null);
   const botRef = useRef(null);
   const [question, setQuestion] = useState('');
@@ -69,27 +76,42 @@ const Interview = ({ interview }) => {
 
   const handleNext = () => {
     setFetchingNext(true);
-    axios.get(QUESTION_GET_ENDPOINT, { params: { jobId: interview.jobId, answer } }).then((res) => {
-      if (res.data.length) {
-        clearExistingTimeouts();
-        setQuestions((questions) => [...questions, ...res.data.map((q) => ({ question: q, answer: '' }))]);
-        setAnswer('');
-        setQuestion(res.data[0]);
-        typeEffect(res.data[0], setDisplayQuestion);
-        setIsOver(false);
-        setIsBotSpeaking(true);
-        setFetchingNext(false);
-      } else if (res.data.isOver) {
-        setIsOver(true);
-      } else {
-        setAnswer('');
-        setQuestion('');
-        setDisplayQuestion('');
-        setIsOver(false);
-        setIsBotSpeaking(false);
-        setFetchingNext(false);
-      }
-    });
+    if (questions.length < 10)
+      axios
+        .get(questions.length < 5 ? QUESTION_GET_CV_ENDPOINT : QUESTION_GET_JD_ENDPOINT, {
+          params: {
+            userId: user._id,
+            userName: user.name || 'User',
+            jobId: interview.jobId,
+            answer,
+            value: questions.length < 5 ? interview.cv : interview.jd,
+          },
+        })
+        .then((res) => {
+          if (res.data.data?.output) {
+            const question = res.data.data.output;
+            clearExistingTimeouts();
+            setQuestions((questions) => [...questions, { question, answer: '' }]);
+            setQuestion(question);
+            typeEffect(question, setDisplayQuestion);
+            setIsBotSpeaking(true);
+            setFetchingNext(false);
+          } else {
+            setQuestions([]);
+            setQuestion('');
+            setDisplayQuestion('');
+            setIsBotSpeaking(false);
+            setFetchingNext(false);
+          }
+        })
+        .catch((err) => console.log(err));
+    else {
+      setQuestion("Thank you for your time. We'll get back to you soon.");
+      typeEffect("Thank you for your time. We'll get back to you soon.", setDisplayQuestion);
+      setIsBotSpeaking(true);
+      setIsOver(true);
+      setFetchingNext(false);
+    }
   };
 
   const handleBot = () => {
@@ -109,22 +131,34 @@ const Interview = ({ interview }) => {
   }, []);
 
   useEffect(() => {
-    if (interview) {
-      // fetch questions
+    if (interview && questions.length < 10) {
+      setFetchingNext(true);
       axios
-        .get(QUESTION_GET_ENDPOINT, { params: { jobId: interview.jobId } })
+        .get(questions.length < 5 ? QUESTION_GET_CV_ENDPOINT : QUESTION_GET_JD_ENDPOINT, {
+          params: {
+            userId: user._id,
+            userName: user.name || 'User',
+            jobId: interview.jobId,
+            answer,
+            value: questions.length < 5 ? interview.cv : interview.jd,
+          },
+        })
         .then((res) => {
-          if (res.data.length) {
+          console.log(res.data);
+          if (res.data.data?.output) {
+            const question = res.data.data.output;
             clearExistingTimeouts();
-            setQuestions(res.data.map((q) => ({ question: q, answer: '' })));
-            setQuestion(res.data[0]);
-            typeEffect(res.data[0], setDisplayQuestion);
+            setQuestions((questions) => [...questions, { question, answer: '' }]);
+            setQuestion(question);
+            typeEffect(question, setDisplayQuestion);
             setIsBotSpeaking(true);
+            setFetchingNext(false);
           } else {
             setQuestions([]);
             setQuestion('');
             setDisplayQuestion('');
             setIsBotSpeaking(false);
+            setFetchingNext(false);
           }
         })
         .catch((err) => console.log(err));
@@ -205,7 +239,7 @@ const Interview = ({ interview }) => {
           alignItems="flex-end"
           sx={{ zIndex: 1, width: 'calc(100% - 48px)', px: 8, height: '300px', pb: 2 }}
         >
-          <Typography align="center" variant="h4" sx={{ color: 'white' }}>
+          <Typography align="center" variant="h6" sx={{ color: 'white' }}>
             {displayQuestion}
           </Typography>
         </Stack>
@@ -232,6 +266,7 @@ const Interview = ({ interview }) => {
       />
       <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }} spacing={1}>
         <LoadingButton
+          disabled={!Boolean(question)}
           loading={fetchingNext}
           color="primary"
           variant="contained"
